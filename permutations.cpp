@@ -104,7 +104,7 @@ vector<vector<int> > permuteUnique(vector<int>& nums) {
 		size_t size = nums.size();
 		set<int> unique;
 		for(size_t i = 0; i < size; ++i) {
-			if(!((i != 0 && nums[i] == nums[0]) || unique.find(nums[i]) != unique.end())) {
+			if(unique.find(nums[i]) == unique.end()) {
 				unique.insert(nums[i]);
 				swap(nums[0],nums[i]);
 				vector<int> vv;
@@ -148,7 +148,7 @@ vector<vector<int> > permuteUniqueNoRecursion(vector<int>& nums) {
 			}
 			stack.pop_back();
 		}else {
-			if((top.pos == 0 || top.nums[0] != top.nums[top.pos]) && top.unique.find(top.nums[top.pos]) == top.unique.end()){
+			if(top.unique.find(top.nums[top.pos]) == top.unique.end()){
 				top.unique.insert(top.nums[top.pos]);			
 				swap(top.nums[0],top.nums[top.pos]);
 				stack.push_back(procedure(0,vector<int>(++top.nums.begin(),top.nums.end()),top.nums[0],&top));
@@ -186,7 +186,7 @@ void testPermutationsII() {
 	v.push_back(3);
 	v.push_back(0);
 	v.push_back(3);
-	vector<vector<int> > ret = permuteUniqueNoRecursion(v);
+	vector<vector<int> > ret = permuteUnique(v);
 
 	for(size_t j = 0; j < ret.size(); ++j) {
 		for(size_t k = 0; k < ret[j].size(); ++k) {
