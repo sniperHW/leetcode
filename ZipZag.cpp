@@ -89,33 +89,30 @@ public:
 
         string ret(s.size(),0);
         int len = s.size();
-        int j = 0;//当前处理第几行 
-        int n = numRows - 1;
-        int span = n;
-        int step = 0;
-        int flip = 0;
-        int sIdx = 0;
-        for(int i = 0; i < len; i++) {
+        int n = numRows - 1,span = numRows - 1;
+        int step = 0,flip = 0,sIdx = 0,factor = 0,j = 0,i = 0;
+        for( ;i < len; ) {
         	sIdx += step;
         	if(sIdx < len) {
-        		ret[i] = s[sIdx];
+        		ret[i++] = s[sIdx];
         		//更新step
-        		if(flip == 0) {
-        			step = span;// * 2;
+        		if(flip == 0 || factor == 0) {
+        			step = span;
         		} else {
-        			step = (n - span * (span == n ? 0 : 1));// * 2;
+        			step = (n - span);
         		}
         		step += step;
         		flip = ~flip;
         	} else {
         		//换行
-        		i--;
         		j++;
         		step = flip = 0;
         		sIdx = j;
         		span = n - (j % n);
+        		factor = span == n ? 0 : 1;
         	}
         }
+
         return ret;
     }
 };
