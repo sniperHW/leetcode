@@ -87,8 +87,7 @@ public:
     		return s;
     	}
 
-        char *out = new char[s.size()+1];
-        out[s.size()] = 0;
+        string ret(s.size(),0);
         int len = s.size();
         int j = 0;//当前处理第几行 
         int n = numRows - 1;
@@ -99,7 +98,7 @@ public:
         for(int i = 0; i < len; i++) {
         	sIdx += step;
         	if(sIdx < len) {
-        		out[i] = s[sIdx];
+        		ret[i] = s[sIdx];
         		//更新step
         		if(flip == 0) {
         			step = span;// * 2;
@@ -117,8 +116,6 @@ public:
         		span = n - (j % n);
         	}
         }
-        string ret = out;
-        delete [] out;
         return ret;
     }
 };
