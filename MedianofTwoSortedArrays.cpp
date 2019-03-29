@@ -67,7 +67,7 @@ public:
             if(idx == need){
                 return nums1[0];
             } else if(need > idx) {
-                return findMedianSortedArrays1(&nums2[idx],len2 - idx,&nums1[1],len1 - 1,need - idx - 1);
+                return findMedianSortedArrays1(&nums1[1],len1 - 1,&nums2[idx],len2 - idx,need - idx - 1);
             } else {
                 return findMedianSortedArrays1(nums1,len1,NULL,0,need);
             }           
