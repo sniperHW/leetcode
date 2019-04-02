@@ -4,210 +4,69 @@
 #include <map>
 using namespace std;
 
-
-/*
-Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
-
-Note:
-
-The solution set must not contain duplicate triplets.
-
-Example:
-
-Given array nums = [-1, 0, 1, 2, -1, -4],
-
-[-1,-1,0,1,2]
-
-[-1,-1,0,1]
-
-[-1,0,1,2]
-
-
-
-[-4,-1,-1,0,1,2]
-
-A solution set is:
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]
-*/
-
-/*
-[-2,-2,-1,0,2,2]
-
-[-2,-1,-1,0,2,2]
-
-[-4,-1,-1,0,1,4]          
-
-[-4,-1,-1,0,1,2]
-
-
-[-2,-2,-1,-1,0,2,2]
-
-
-[-2,0,1,1,2]
-
-
-[3,0,-2,-1,1,2]
-
-
-
-[-2,-1,0,1,2,3]
-
-[-2,-1,0,1,2]
-
-[-1,0,1,2,3]
-
-
-
-[[-2,-1,3],[-1,0,1]]
-
-[[-2,-1,3],[-2,0,2],[-1,0,1]]
-
-
-[-1,0,1,2,-1,-4]
-
-*/
-
-
-void showv(vector<int> &v) {
-	cout << v[0] << "," << v[1] << "," << v[2] << endl;
-}
-
-
 class Solution {
 public:
 
+	int search(vector<pair<int,int> > &numbers,int begin,int end,int target){
+    	for( ; begin <= end ; ) {
+	     	int mid = begin + (end - begin)/2;
+	    	int midval = numbers[mid].first;
+	    	if(midval == target)
+	    		return mid;
+	    	else if(midval < target)
+	    		begin = mid + 1;
+	    	else
+	    		end = mid - 1;   		
+    	}
+    	return -1;
+    }
+
 	 vector<vector<int> > threeSum(vector<int>& nums) {
-
 	 	vector<vector<int> > ret;
-
 	 	if(nums.size() < 3) {
 	 		return ret;
 	 	}
+     	sort(nums.begin(),nums.end());
+     	int size = nums.size();
+     	vector<pair<int,int> > mynumbers;
+     	mynumbers.reserve(size);     	
+     	int last = nums[size-1] + 1;
+     	for(int i = 0; i < size; i++){
+     		int n = nums[i];
+     		if(n != last) {
+     			last = n;
+     			mynumbers.push_back(make_pair(nums[i],1));
+     		} else {
+     			mynumbers[mynumbers.size()-1].second++;
+     		}
+     	}
 
-	 	map<int,int> counter;
-	 	for(int i = 0; i < nums.size(); i++) {
-	 		map<int,int>::iterator it = counter.find(nums[i]);
-	 		if(it != counter.end()){
-	 			++it->second;
-	 		} else {
-	 			counter[nums[i]] = 1;
-	 		}
-	 	}
-
-	 	map<int,int>::iterator it1 = counter.begin();
-	 	map<int,int>::iterator end1 = counter.end();
-	 	for(; it1 != end1; it1++) {
-	 		map<int,int>::reverse_iterator it2 = counter.rbegin();
-	 		map<int,int>::reverse_iterator end2 = counter.rend();
-
-	 		if(it1->first == it2->first && it1->second < 2) {
-	 			continue;
-	 		}
-
-	 		for( ; it2 != end2; it2++) {
-
-	 			if(it1->first == it2->first && it1->second < 2) {
-	 				break;
+     	size = mynumbers.size();
+     	int ss = size - 1;
+	 	for(int i = 0; i < size; i++){
+	 		for(int j = ss; j >= i;j--){
+	 			pair<int,int> &n1 = mynumbers[i];
+	 			pair<int,int> &n2 = mynumbers[j];
+	 			int s = n1.first + n2.first;
+		 		if(s < 0 && (s + n2.first) < 0) {
+		 			break;
+		 		}
+		 		int target = 0 - s;
+		 		if(target >= n1.first && target <= n2.first) {		
+		 			int idx = search(mynumbers,i,j,target);
+		 			if(idx >=0){
+		 				pair<int,int> &n3 = mynumbers[idx];		 				
+		 				if(!((i == j && j == idx && n1.second < 3 ) || (j == idx && n2.second < 2) || (i == idx && n1.second < 2))){
+		 					vector<int> v{n1.first,n2.first,n3.first};   
+		    				ret.push_back(v);
+		 				}
+		 			}	 			
 	 			}
-
-		 		int s = it1->first + it2->first;
-
-		 		if(s < 0 && (s + it2->first) < 0) {
-		 			break;
-		 		}
-		 		
-	 			map<int,int>::iterator it3 = counter.find(0 - s);
-	 			if(it3 != counter.end()){
-	 				if(!((it3->first == it2->first && it3->first == it1->first && it1->second < 3) ||
-	 					(it3->first == it2->first && it2->second < 2) ||
-	 					(it3->first == it1->first && it1->second < 2)
-	 				   )){
-	 					if(it3->first >= it1->first && it3->first <= it2->first) {
-	 						vector<int> v{it1->first,it3->first,it2->first};   
-	    					ret.push_back(v);
-	    				}
-	 				}
-	 			} 
-		 		
-		 		if(it2->first == it1->first) {
-		 			break;
-		 		}
 	 		}
 	 	}
 	 	return ret;
 	 }
 };
-
-//[-1, 0, 1, 2, -1, -4]
-//[-2,-2,-1,0,2,2]
-
-
-/*
-
-
--10,9,1
--10,8,2
--10,7,3
--10,6,4
--8,7,1
--8,6,2
--8,5,3
--5,4,1
--5,3,2
--4,3,1
--4,2,2
-
-
-
--10,9,1
--10,8,2
--10,7,3
--10,6,4
--8,7,1
--8,6,2
--8,5,3
--8,-1,9
--5,4,1
--5,3,2
--5,-1,6
--5,-4,9
--4,3,1
--4,2,2
--4,-1,5
--4,-4,8
--1,-1,2
-*/
-
-
-/*
-
--10,1,9
--10,2,8
--10,3,7
--10,4,6
--8,1,7
--8,2,6
--8,3,5
-
-miss-8,9,-1
-
--5,1,4
--5,2,3
-
-miss-5,6,-1
-miss-5,9,-4
-
--4,1,3
--4,2,2
-
-miss-4,5,-1
-miss-4,8,-4
-
-
-*/
 
 int main() {
 
@@ -216,7 +75,9 @@ int main() {
 	
 	//vector<int> v{5,1,-4,-10,9,-1,-4,-5,-8,3,1,4,2,-8,-4,3,-4,-5,1,7,8,6,2,8};
 
-	//vector<int> v{-1, 0, 1, 2, -1, -4};
+	//vector<int> v{-4,-1,-1,0,1,2};//{-1, 0, 1, 2, -1, -4};
+
+	//vector<int> v{-1,0,1};
 
 	//vector<int> v{0,0,0};
 
