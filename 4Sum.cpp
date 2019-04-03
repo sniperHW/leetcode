@@ -2,32 +2,8 @@
 #include <vector>
 using namespace std;
 
-/*
-Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? 
-Find all unique quadruplets in the array which gives the sum of target.
-
-Note:
-
-The solution set must not contain duplicate quadruplets.
-
-Example:
-
-Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.
-
-A solution set is:
-[
-  [-1,  0, 0, 1],
-  [-2, -1, 1, 2],
-  [-2,  0, 0, 2]
-]
-*/
-
 class Solution {
 public:
-
-	void showv(vector<int> &v) {
-		cout << v[0] << "," << v[1] << "," << v[2] << "," << v[3] << endl;
-	}
 
     vector<vector<int> > fourSum(vector<int>& nums, int target) {
         vector<vector<int> > ret;
@@ -39,6 +15,8 @@ public:
        			int n1 = nums[i];
        			if(lastn1 != n1) {
        				lastn1 = n1;
+       				int s = target - n1;
+       				if(s > 0 && s > nums[len-1]*3) continue; //负值太大，3倍的最大值也不足以补偿,可以跳过
        				int lastn2 = nums[len-1] + 1;
        				for(int j = i+1; j < len-2;j++) {
        					int n2 = nums[j];
@@ -46,6 +24,11 @@ public:
        						lastn2 = n2;
        						int l = j+1;
        						int r = len-1;
+       						int s = target - (n1 + n2);
+       						
+       						if(s > 0 && s > nums[r]*2) continue;
+       						if(s < 0 && s < nums[l]*2) break;
+       						
        						while(l < r) {
        							int n3 = nums[l];
        							int n4 = nums[r];
@@ -73,26 +56,6 @@ public:
 };
 
 
-/*
-[-1,0,1,2,-1,-4]
-
--4,-1,-1,0,1,2
-
--1
-Output
-[[-4,0,1,2]]
-Expected
-[[-4,0,1,2],[-1,-1,0,1]]
-
-[-1,0,-5,-2,-2,-4,0,1,-2]
-
--5,-4,-2,-2,-2,-1,0,0,1
-
--9
-
-
-*/
-
 int main() {
 
 	Solution s;
@@ -105,18 +68,19 @@ int main() {
 	//vector<int> v{-1,0,1};
 
 	//vector<int> v{0,0,0};
-
-	//[1,0,-1,0,-2,2]
-	//0
-
+	//[0,1,5,0,1,5,5,-4]
+	//11
 
 	//vector<int> v{1, 0, -1, 0, -2, 2};
 
+	//-4,0,0,1,1,5,5,5
+	vector<int> v{0,1,5,0,1,5,5,-4};
+
 	//vector<int> v{0,0,0,0};
 
-	vector<int> v{-1,0,-5,-2,-2,-4,0,1,-2};
+	//vector<int> v{-1,0,-5,-2,-2,-4,0,1,-2};
 
-	vector<vector<int> > ret = s.fourSum(v,-9);
+	vector<vector<int> > ret = s.fourSum(v,11);
 
 	cout << ret.size() << endl;
 
