@@ -7,7 +7,72 @@ using namespace std;
 class Solution {
 public:
 
-	int search(vector<pair<int,int> > &numbers,int begin,int end,int target){
+
+	void showv(vector<int> &v) {
+		cout << v[0] << "," << v[1] << "," << v[2] << endl;
+	}
+
+    int search(vector<int> &numbers,int begin,int end,int target){
+    	for( ; begin <= end ; ) {
+	     	int mid = begin + (end - begin)/2;
+	    	int midval = numbers[mid];
+	    	if(midval == target)
+	    		return mid;
+	    	else if(midval < target)
+	    		begin = mid + 1;
+	    	else
+	    		end = mid - 1;   		
+    	}
+    	return -1;
+    }	
+
+
+	vector<vector<int> > threeSum(vector<int>& nums) {
+	 	vector<vector<int> > ret;
+	 	if(nums.size() < 3) {
+	 		return ret;
+	 	}
+     	sort(nums.begin(),nums.end());
+     	int size = nums.size();
+
+     	int lastI = nums[size-1] + 1;
+    	int ss = size-1;
+	 	for(int i = 0; i < size; i++){
+	 		int n1 = nums[i];
+	 		if(lastI != n1){
+		 		lastI = n1;
+		 		int lastJ = nums[size-1] + 1;
+		 		for(int j = ss; j >= i;j--){
+		 			int n2 = nums[j];
+		 			if(n2 != lastJ) {
+		 				lastJ = n2;
+		 				int s = n1 + n2;
+			 			if(s < 0 && (s + n2) < 0) {
+			 				break;
+			 			}
+
+			 			if(s > 0 && (s + n1) > 0) {
+			 				ss--;
+			 				continue;
+			 			}
+
+			 			int target = 0 - s;
+
+		 				int idx = search(nums,i+1,j-1,target);
+		 				if(idx >=0){
+		 					int n3 = nums[idx];
+		 					vector<int> v{n1,n2,n3};  
+		    				ret.push_back(v);
+		 				}
+		 			}	 			 				
+		 		}
+		 	}
+		}
+	 	return ret;    	
+    }
+
+
+/*	int search(vector<pair<int,int> > &numbers,int begin,int end,int target){
     	for( ; begin <= end ; ) {
 	     	int mid = begin + (end - begin)/2;
 	    	int midval = numbers[mid].first;
@@ -51,6 +116,12 @@ public:
 		 		if(s < 0 && (s + n2.first) < 0) {
 		 			break;
 		 		}
+
+	 			if(s > 0 && (s + n1.first) > 0) {
+	 				ss--;
+	 				continue;
+	 			}		 		
+
 		 		int target = 0 - s;
 		 		if(target >= n1.first && target <= n2.first) {		
 		 			int idx = search(mynumbers,i,j,target);
@@ -66,6 +137,7 @@ public:
 	 	}
 	 	return ret;
 	 }
+*/
 };
 
 int main() {
