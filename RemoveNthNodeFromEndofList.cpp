@@ -17,22 +17,22 @@ public:
 		if(!head->next){
 			int i = 1;
 			if(i == n) {
-				return std::make_pair<ListNode*,int>(NULL,0);
+				return std::make_pair(nullptr,0);
 			} else {
-				return std::make_pair<ListNode*,int>(std::forward<ListNode*>(head),std::forward<int>(i));
+				return std::make_pair(head,i);
 			}
 		} else {
 			std::pair<ListNode*,int> next = remove(head->next,n);
 			if(0 == next.second) {
 				head->next = next.first;
-				return std::make_pair<ListNode*,int>(std::forward<ListNode*>(head),0);
+				return std::make_pair(head,0);
 			} else {
 				int i = next.second + 1;
 				if(i == n) {
 					head->next = NULL;
-					return std::make_pair<ListNode*,int>(std::forward<ListNode*>(next.first),0);
+					return std::make_pair(next.first,0);
 				} else {
-					return std::make_pair<ListNode*,int>(std::forward<ListNode*>(head),std::forward<int>(i));
+					return std::make_pair(head,i);
 				}				
 			}
 		}
