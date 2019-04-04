@@ -13,6 +13,7 @@ struct ListNode {
 class Solution {
 public:
 
+	//递归
 	std::pair<ListNode*,int> remove(ListNode *head,int n) {
 		if(!head->next){
 			int i = 1;
@@ -38,9 +39,29 @@ public:
 		}
 	}
 
+	//快慢指针
     ListNode* removeNthFromEnd(ListNode* head, int n) {
     	if(!head || n <= 0) return NULL;
-    	return remove(head,n).first;
+    	n--;
+    	ListNode *need = NULL,*cur = head,*prev = head;
+    	for( ; cur != NULL ;cur = cur->next,--n) {
+    		if(n == 0) {
+    			need = head;
+    		} else if(need){
+    			prev = need;
+    			need = need->next;
+    		}
+    	}
+
+    	if(n >= 0) {
+    		return head;
+    	} else {
+    		ListNode *newHead = prev == need? need->next:head;
+    		prev->next = need->next;
+    		need->next = NULL;
+    		return newHead;
+    	}
+    	//return remove(head,n).first;
     }
 };
 
@@ -50,7 +71,7 @@ ListNode *vtol(const std::vector<int> &v) {
 	ListNode *tail = NULL;
 	for(std::vector<int>::const_iterator it = v.begin(); it != v.end(); it++) {
 		ListNode *n = new ListNode(*it);
-		std::cout << *it << std::endl;
+		//std::cout << *it << std::endl;
 		if(!head){
 			head = n;
 		}
@@ -88,7 +109,7 @@ int main() {
 
 	//showv(ltov(vtol(v)));
 
-	ListNode *newL = s.removeNthFromEnd(vtol(v),2);
+	ListNode *newL = s.removeNthFromEnd(vtol(v),1);
 
 	showv(ltov(newL));
 
