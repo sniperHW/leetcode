@@ -70,11 +70,8 @@ public:
 						}						
 					}
 					swap(nums[b],nums[idx]);
-
 					vector<int>::iterator it = nums.begin();
-					for(int i = 0; i <= b; i++) {
-						it++;
-					}
+					for(int i = 0; i <= b; i++,it++);
 
 					sort(it,nums.end());		
 					return true;
