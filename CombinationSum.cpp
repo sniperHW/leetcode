@@ -48,24 +48,25 @@ public:
 
 	vector<vector<int>> ret;
 
-	void combination(vector<int>& candidates, vector<int> vv, int cur, int sum,int target) {
+	void combination(vector<int>& candidates, vector<int> &vv, int cur, int sum,int target) {
 		int v = candidates[cur];
 		int remian = target - sum;
-
 		if(v > remian) {
 			return;
-		}
-		vv.push_back(v);
-		if(remian == v) {
-			ret.push_back(vv);
 		} else {
-			for(int i = cur; i < candidates.size();i++) {
-				if(candidates[i] + sum + v > target) {
-					break;
-				} else {
-					combination(candidates,vv,i,sum + v,target);
+			vv.push_back(v);
+			if(remian == v) {
+				ret.push_back(vv);
+			} else {
+				for(int i = cur; i < candidates.size();i++) {
+					if(candidates[i] + sum + v > target) {
+						break;
+					} else {
+						combination(candidates,vv,i,sum + v,target);
+					}
 				}
 			}
+			vv.pop_back();
 		}
 	}
 
@@ -74,7 +75,8 @@ public:
     	sort(candidates.begin(),candidates.end());
     	for(int i = 0; i < candidates.size();i++) {
     		if(candidates[i] > target) break;
-    		combination(candidates,vector<int>(),i,0,target);
+    		vector<int> vv;
+    		combination(candidates,vv,i,0,target);
     	}
     	return ret;
     }
