@@ -83,11 +83,17 @@ public:
     		int nexti = i;
     		int nextj = j;
     		next(nexti,nextj);
+
+    		int s = getsub(i,j);
+	    	int oldrow = row[i];
+	    	int oldcol = col[j];
+	    	int oldsub = sub[s];
+
 	    	for(int c = 1; c <= 9; c++) {
 	    		//跳过所有不能选的数字
 	    		if((row[i] & (1 << c)) != 0) continue;
 	    		if((col[j] & (1 << c)) != 0) continue;
-	    		int s = getsub(i,j);
+	    		
 	    		if((sub[s] & (1 << c)) != 0) continue;
 
 
@@ -96,14 +102,10 @@ public:
 	    		if(i == 8 && j == 8) {
 	    			return true;
 	    		}
-
-	    		int oldrow = row[i];
-	    		int oldcol = col[j];
-	    		int oldsub = sub[s];
 	    		
-	    		row[i] = row[i] | (1 << c);
-	    		col[j] = col[j] | (1 << c);
-	    		sub[s] = sub[s] | (1 << c);
+	    		row[i] |= (1 << c);
+	    		col[j] |= (1 << c);
+	    		sub[s] |= (1 << c);
 
 	    		if(solve(board,nexti,nextj,row,col,sub)) {
 	    			return true;
