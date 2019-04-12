@@ -34,11 +34,7 @@ public:
 				memo[sIdx][pIdx] = 1;
 				return true;
 			}
-			if(this->match(s,sIdx,patten,pIdx + 1)){ 
-				memo[sIdx][pIdx] = 1;
-				return true;//空串
-			}
-			for(int i = sIdx + 1; i <= s.size(); i++) {
+			for(int i = sIdx; i <= s.size(); i++) {
 				if(this->match(s,i,patten,pIdx + 1)){
 					memo[sIdx][pIdx] = 1;
 					return true;
