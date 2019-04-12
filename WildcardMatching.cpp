@@ -14,6 +14,31 @@ The matching should cover the entire input string (not partial).
 
 using namespace std;
 
+
+/*class Solution {
+public:
+    bool match(const char *s, const char *p) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+         
+        const char* star=NULL;
+        const char* ss=s; 
+        while (*s){
+        	if (*p=='*'){star=p++; ss=s;continue;}
+            if ((*p=='?')||(*p==*s)){s++;p++;continue;}
+            if (star){ p = star+1; s=++ss;continue;}
+            return false;
+        }
+        while (*p=='*'){p++;}
+        return !*p;
+    }
+
+    bool isMatch(string s, string p) {
+    	return match(s.c_str(),p.c_str());
+    }
+
+};*/
+
 class Solution {
 public:
 
@@ -80,8 +105,12 @@ int main() {
 	Solution s;
 
 	{
-		string ss = "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb";
-		string p = "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb";
+		//string ss = "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb";
+		//string p = "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb";
+			
+		string ss = "a*a*ab";
+		string p = "a*b";
+
 		cout << s.isMatch(ss,p) << endl;
 	}
 }
