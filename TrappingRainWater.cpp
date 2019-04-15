@@ -36,24 +36,32 @@ public:
     */
 
     int trap(vector<int>& height) {
-    	int sum   = 0;
-		int left  = -1;
-		for(int j = 0;j < height.size(); j++) {
-			if(height[j] > 0){
-    			if(left == -1) {
-    				left = j;//找到左边门板
-    			} else {
-					if(j - left > 0) {
-						int v = min(height[left],height[j]);
-						for(int k = left + 1; k < j; k++) {
-							sum += (v - height[k]);
-						}
-						left = j; 
-					}   				
-    			}
-			}
-		}
-    	return sum;
+    	if(height.empty()) return 0;
+	    int sum = 0;
+	    int max_left = 0;
+	    int max_right = 0;
+	    int left = 1;
+	    int right = height.size() - 2; // 加右指针进去
+	    for (int i = 1; i < height.size() - 1; i++) {
+	        //从左到右更
+	        if (height[left - 1] < height[right + 1]) {
+	            max_left = max(max_left, height[left - 1]);
+	            int min = max_left;
+	            if (min > height[left]) {
+	                sum = sum + (min - height[left]);
+	            }
+	            left++;
+	        //从右到左更
+	        } else {
+	            max_right = max(max_right, height[right + 1]);
+	            int min = max_right;
+	            if (min > height[right]) {
+	                sum = sum + (min - height[right]);
+	            }
+	            right--;
+	        }
+	    }
+	    return sum;
     }
 
 };
@@ -64,6 +72,7 @@ public:
 	     1 1 1     1
      1     1
 [0,1,0,2,1,0,1,3,2,1,2,1]
+
 
 */
 
