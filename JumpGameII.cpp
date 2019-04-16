@@ -83,7 +83,7 @@ public:
 		 return 0;
 	 }
 
-	void dfs(vector<int>& nums,int idx,int &min,int step) {
+	void bruteforce(vector<int>& nums,int idx,int &min,int step) {
 		step++;
 
 		if(step >= min) {
