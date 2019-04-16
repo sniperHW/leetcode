@@ -68,6 +68,21 @@ public:
 	    return steps;
 	}
 
+
+    //https://leetcode.com/problems/jump-game-ii/discuss/18028/O(n)-BFS-solution
+	 int bfs(vector<int>& nums) {
+		 int level=0,currentMax=0,i=0,nextMax=0;
+		 while(currentMax-i+1>0){		//nodes count of current level>0
+			 level++;
+			 for(;i<=currentMax;i++){	//traverse current level , and update the max reach of next level
+				nextMax=max<int>(nextMax,nums[i]+i);
+				if(nextMax>=nums.size()-1)return level;   // if last element is in level+1,  then the min jump=level 
+			 }
+			 currentMax=nextMax;
+		 }
+		 return 0;
+	 }
+
 	void dfs(vector<int>& nums,int idx,int &min,int step) {
 		step++;
 
@@ -93,7 +108,7 @@ public:
 
     int jump(vector<int>& nums) {
     	if(nums.empty() || nums.size() == 1) return 0;
-    	return gredy(nums);
+    	return bfs(nums);
     	//return dp(nums);
     }
 };
